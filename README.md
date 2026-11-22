@@ -1,132 +1,146 @@
-# Gerenciador de Tarefas - P2 Programação Mobile
+# Gerenciador de Tarefas
 
-Aplicativo mobile feito em **Flutter** para gerenciamento de tarefas pessoais, usando **Firebase Authentication** (login por e-mail e senha) e **Firebase Realtime Database** para guardar as tarefas na nuvem. Cada usuário vê e altera somente as suas próprias tarefas.
+Aplicativo mobile desenvolvido com **Flutter e Firebase** para gerenciamento de tarefas pessoais. O sistema permite que cada usuário tenha sua própria conta e organize suas atividades de maneira simples e intuitiva.
 
-## Vídeo de demonstração
+## Tecnologias utilizadas
 
-
-
-https://github.com/user-attachments/assets/33eed6c5-5367-4b03-8f45-81ddfa97a8d5
-
+- **Flutter:** desenvolvimento da interface mobile.
+- **Dart:** linguagem de programação.
+- **Firebase Authentication:** cadastro e autenticação de usuários.
+- **Firebase Realtime Database:** armazenamento dos usuários e tarefas.
+- **SharedPreferences:** armazenamento local das preferências de tema.
 
 ## Funcionalidades
 
-- Cadastro de usuário (nome, e-mail e senha), login e logout
-- Validação dos campos e mensagens de erro de autenticação em português
-- Sessão mantida ao fechar e abrir o app (gerenciada pelo Firebase)
-- Tela inicial com o nome do usuário e a quantidade de tarefas cadastradas, pendentes e concluídas
-- Menu lateral (Drawer) com Início, Minhas tarefas, Configurações, Sobre o aplicativo e Sair, mostrando nome e e-mail do usuário
-- Cadastro de tarefas com título, descrição, data de vencimento, prioridade (Baixa, Média, Alta) e situação (Pendente, Concluída)
-- Listagem em `ListView` com cores/ícones por prioridade e filtro (Todas, Pendentes, Concluídas)
-- Tela de detalhes da tarefa, edição, exclusão e alteração de situação (pendente ⇄ concluída)
-- Atualização em tempo real usando listeners do Realtime Database (`onValue`)
-- Tema claro e escuro salvo com `SharedPreferences` e carregado ao abrir o app
+### Autenticação de usuários
+- Cadastro de usuários com nome, e-mail e senha.
+- Login com e-mail e senha.
+- Logout.
+- Persistência da sessão do usuário.
 
-## Tecnologias
+### Gerenciamento de tarefas
+- Cadastro de tarefas.
+- Edição de tarefas existentes.
+- Exclusão de tarefas.
+- Definição de título e descrição.
+- Definição de data de vencimento.
+- Classificação por prioridade: baixa, média e alta.
+- Identificação de tarefas pendentes e concluídas.
+- Listagem e visualização das tarefas.
 
-| Recurso | Uso |
-| --- | --- |
-| Flutter / Dart | Desenvolvimento do aplicativo |
-| Drawer | Menu lateral de navegação |
-| ListView | Listagem das tarefas |
-| Firebase Authentication | Cadastro e login por e-mail |
-| Firebase Realtime Database | Persistência das tarefas |
-| SharedPreferences | Preferência de tema |
-| ThemeData / ThemeMode | Temas claro e escuro |
-| Models | Classes `Usuario` e `Tarefa` |
+### Página inicial
+- Exibição das informações do usuário.
+- Contagem total de tarefas.
+- Quantidade de tarefas pendentes.
+- Quantidade de tarefas concluídas.
 
-## Estrutura do projeto
+### Configurações
+- Alternância entre tema claro e escuro.
+- Salvamento da preferência de tema no dispositivo.
 
-```
+## Organização do projeto
+
+```text
 lib/
- ├── main.dart
- ├── firebase_options.dart
- ├── models/
- │   ├── usuario.dart
- │   └── tarefa.dart
- ├── screens/
- │   ├── login_screen.dart
- │   ├── cadastro_usuario_screen.dart
- │   ├── home_screen.dart
- │   ├── tarefas_screen.dart
- │   ├── detalhe_tarefa_screen.dart
- │   ├── cadastro_tarefa_screen.dart
- │   └── configuracoes_screen.dart
- ├── services/
- │   ├── auth_service.dart
- │   ├── firebase_service.dart
- │   └── preferences_service.dart
- ├── widgets/
- │   └── drawer_menu.dart
- └── themes/
-     └── app_theme.dart
+├── models/
+│   ├── tarefa.dart
+│   └── usuario.dart
+├── screens/
+│   ├── cadastro_usuario_screen.dart
+│   ├── configuracoes_screen.dart
+│   ├── home_screen.dart
+│   ├── login_screen.dart
+│   └── tarefas_screen.dart
+├── services/
+│   ├── auth_service.dart
+│   ├── firebase_service.dart
+│   └── preferences_service.dart
+├── themes/
+│   └── app_theme.dart
+├── widgets/
+├── firebase_options.dart
+└── main.dart
 ```
 
-## Estrutura dos dados no Realtime Database
+## Configuração e execução
 
+### Pré-requisitos
 
-```
-usuarios/
-  {uid}/
-    nome: "Maria"
-    email: "maria@email.com"
-tarefas/
-  {uid}/
-    {idTarefa}/
-      titulo: "Estudar Flutter"
-      descricao: "Revisar Firebase"
-      dataVencimento: 1764547200000
-      prioridade: "Alta"
-      concluida: false
+- Flutter instalado.
+- Dart instalado.
+- Android Studio ou Visual Studio Code.
+- Conta Google e projeto configurado no Firebase.
+
+### 1. Clone o repositório
+
+```bash
+git clone https://github.com/EduardoUtida/Gerenciador-de-tarefas-flutter.git
 ```
 
-As tarefas ficam dentro do `uid` do usuário logado, e as regras do banco (`database.rules.json`) só deixam cada usuário ler e escrever no próprio nó.
+### 2. Acesse a pasta do projeto
 
-## Como configurar o Firebase
+```bash
+cd Gerenciador-de-tarefas-flutter
+```
 
-1. Acesse o [Firebase Console](https://console.firebase.google.com/) e crie um projeto.
-2. Em **Authentication > Método de login**, ative **E-mail/senha**.
-3. Em **Realtime Database**, clique em **Criar banco de dados** (pode iniciar no modo bloqueado).
-4. Na aba **Regras** do Realtime Database, cole o conteúdo do arquivo `database.rules.json` e publique.
-5. Instale as ferramentas (se ainda não tiver):
-   ```bash
-   npm install -g firebase-tools
-   dart pub global activate flutterfire_cli
-   ```
-6. Faça login e configure o projeto Flutter (isso gera o `lib/firebase_options.dart` e o `google-services.json`):
-   ```bash
-   firebase login
-   flutterfire configure
-   ```
-   Selecione o projeto criado e as plataformas Android e iOS.
-
-> Importante: crie o Realtime Database **antes** de rodar o `flutterfire configure`, assim o `databaseURL` já vem preenchido no `firebase_options.dart`.
-
-## Como executar
-
-Pré-requisitos: Flutter SDK instalado e um emulador ou celular conectado.
+### 3. Instale as dependências
 
 ```bash
 flutter pub get
+```
+
+### 4. Configure o Firebase
+
+O projeto utiliza Firebase Authentication e Firebase Realtime Database.
+
+Para executar com sua própria configuração Firebase:
+
+1. Crie um projeto no [Firebase Console](https://console.firebase.google.com/).
+2. Ative o método de autenticação por e-mail e senha.
+3. Crie um Realtime Database.
+4. Configure o aplicativo Flutter utilizando o FlutterFire CLI.
+5. Gere o arquivo `firebase_options.dart` para sua configuração.
+
+### 5. Execute o aplicativo
+
+Conecte um dispositivo Android ou inicie um emulador e execute:
+
+```bash
 flutter run
 ```
 
-Para rodar os testes dos models:
+## Banco de dados
 
-```bash
-flutter test
+Os dados são organizados por usuário, utilizando o UID fornecido pelo Firebase Authentication.
+
+Estrutura simplificada:
+
+```text
+usuarios/
+  UID_DO_USUARIO/
+    nome
+    email
+
+tarefas/
+  UID_DO_USUARIO/
+    ID_DA_TAREFA/
+      titulo
+      descricao
+      dataVencimento
+      prioridade
+      concluida
 ```
 
-## Capturas de tela
+As regras de segurança do Realtime Database restringem a leitura e escrita aos usuários autenticados, permitindo o acesso somente aos próprios dados.
 
-| Login | Cadastro | Início |
-| --- | --- | --- |
-| ![Login](docs/screenshots/Login.png) | ![Cadastro](docs/screenshots/Cadastro.png) | ![Início](docs/screenshots/Inicio.png) |
+## Desenvolvedor
 
-| Minhas tarefas | Nova tarefa | Detalhes |
-| --- | --- | --- |
-| ![Minhas tarefas](docs/screenshots/Minhas%20Tarefas.png) | ![Nova tarefa](docs/screenshots/Nova%20Tarefa.png) | ![Detalhes](docs/screenshots/Detalhes.png) |
+**Eduardo Hideki Utida**
 
-| Tema escuro | Realtime Database |
-| --- | --- |
-| ![Tema escuro](docs/screenshots/Tema%20Escuro.png) | ![Realtime Database](docs/screenshots/Realtime%20Database.png) |
+Estudante de Engenharia de Software – UNIGRAN.
+
+Projeto desenvolvido como atividade prática da disciplina de Programação Mobile.
+
+---
+
+**Repositório:** [GitHub - Gerenciador de Tarefas Flutter](https://github.com/EduardoUtida/Gerenciador-de-tarefas-flutter)
