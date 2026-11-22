@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "93042405318",
+    "firebase_url": "https://gerenciador-de-tarefas-7177c-default-rtdb.firebaseio.com",
+    "project_id": "gerenciador-de-tarefas-7177c",
+    "storage_bucket": "gerenciador-de-tarefas-7177c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:93042405318:android:05b61c6de01f9802b74cc7",
+        "android_client_info": {
+          "package_name": "com.prova.gerenciador_tarefas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDW2kAnogI-ugLG3w9geDmg9lO4wCYowi8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
